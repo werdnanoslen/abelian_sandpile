@@ -3,12 +3,27 @@ var body = document.getElementsByTagName("body")[0];
 var lotSize = 50;
 var pileSize = 10;
 var toppleAt = 5;
+var delay = 1;
 
 
 
 initPileArray();
 buildSandlot();
 
+
+
+function autoPile()
+{
+    window.setInterval(
+        function()
+        {
+            var randX = Math.floor(Math.random() * lotSize);
+            var randY = Math.floor(Math.random() * lotSize);
+            addToPile(randX, randY);
+        },
+        delay
+    );
+}
 
 
 function buildSandlot()
@@ -62,17 +77,27 @@ function initPileArray()
 
 function addToPile(x, y)
 {
-    if (pileArray[y][x] === toppleAt)
-    {
-        pileArray[y][x] = 1;
-        addToPile(x, y+1);
-        addToPile(x+1, y);
-        addToPile(x, y-1);
-        addToPile(x-1, y);
-    }
-    else
-    {
-        pileArray[y][x] += 1;
-    }
-    changeColor(x, y);
+    setTimeout(
+        function()
+        {
+            if (pileArray[y][x] === toppleAt)
+            {
+                pileArray[y][x] = 1;
+                if (y < lotSize-1)
+                    addToPile(x, y+1);
+                if (x < lotSize -1)
+                    addToPile(x+1, y);
+                if (y > 0)
+                    addToPile(x, y-1);
+                if (x > 0)
+                    addToPile(x-1, y);
+            }
+            else
+            {
+                pileArray[y][x] += 1;
+            }
+            changeColor(x, y);
+        },
+        delay*10
+    );
 }
