@@ -7,6 +7,7 @@ var toppleDelay = 100;
 var dropDelay = 1;
 var dropInterval;
 var sandlotBuilt = false;
+var mousedownInterval;
 
 
 buildSandlot();
@@ -85,12 +86,22 @@ function buildSandlot()
             pile.style.width = pile.style.height = pileSize + "px";
             pile.style.marginTop = (pileSize * y) + "px";
             pile.style.marginLeft = (pileSize * x) + "px";
-            pile.onclick = function()
+            pile.onmousedown = function()
             {
                 var x = parseInt(this.getAttribute("data-x"));
                 var y = parseInt(this.getAttribute("data-y"));
-                addToPile(x, y);
-            }
+                mousedownInterval = window.setInterval(
+                    function()
+                    {
+                        addToPile(x, y);
+                    },
+                    1
+                );
+            };
+            pile.onmouseup = function()
+            {
+                window.clearInterval(mousedownInterval);
+            };
         }
     }
     sandlotBuilt = true;
