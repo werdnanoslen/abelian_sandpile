@@ -22,28 +22,28 @@ function buildSandlot()
             pile.setAttribute("data-x", x);
             pile.setAttribute("data-y", y);
             pile.className = "pile";
+            pile.id = x + "-" + y;
             pile.style.width = pile.style.height = pileSize + "px";
             pile.style.marginTop = (pileSize * y) + "px";
             pile.style.marginLeft = (pileSize * x) + "px";
             pile.onclick = function()
             {
-                changeColor(this);
+                var x = parseInt(this.getAttribute("data-x"));
+                var y = parseInt(this.getAttribute("data-y"));
+                addToPile(x, y);
             }
         }
     }
 }
 
 
-function changeColor(pile)
+function changeColor(x, y)
 {
-    var x = pile.getAttribute("data-x");
-    var y = pile.getAttribute("data-y");
-    pileArray[y][x] = (pileArray[y][x] + 1) % toppleAt;
     var r,g,b;
     r = g = b = 255 - (255/toppleAt * pileArray[y][x]);
     var newColor = "rgb(" + r +"," + g + "," + b + ")";
+    var pile = document.getElementById(x + "-" + y);
     pile.style.backgroundColor = newColor;
-    console.log(newColor);
 }
 
 
@@ -57,4 +57,22 @@ function initPileArray()
             pileArray[y][x] = 0;
         }
     }
+}
+
+
+function addToPile(x, y)
+{
+    if (pileArray[y][x] === toppleAt)
+    {
+        pileArray[y][x] = 1;
+        addToPile(x, y+1);
+        addToPile(x+1, y);
+        addToPile(x, y-1);
+        addToPile(x-1, y);
+    }
+    else
+    {
+        pileArray[y][x] += 1;
+    }
+    changeColor(x, y);
 }
