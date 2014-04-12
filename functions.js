@@ -98,6 +98,6 @@ function addToPile(x, y)
             }
             changeColor(x, y);
         },
-        delay*10
+        delay*100
     );
 }
