@@ -4,7 +4,12 @@
 </head>
 
 <body>
-  <button id="auto" onclick="autoPile();">Automate</button>
+  <button onclick="initPileArray(false);">Reset</button>
+  <button onclick="initPileArray(true);">Randomize</button>
+  <label for="dropDelay">dropDelay:</label>
+  <input type="range" name="dropDelay" min="0" max="100">
+  <label for="toppleDelay">toppleDelay:</label>
+  <input type="range" name="toppleDelay" min="0" max="100">
   <script type="text/javascript" src="functions.js"></script>
 </body>
 
