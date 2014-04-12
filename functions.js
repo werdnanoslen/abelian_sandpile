@@ -8,6 +8,7 @@ var dropDelay = 1;
 var dropInterval;
 var sandlotBuilt = false;
 var mousedownInterval;
+var randomDrop = false;
 
 
 buildSandlot();
@@ -16,12 +17,24 @@ document.getElementsByName("dropDelay")[0].onchange = function()
 {
 
     dropDelay = parseInt(this.value);
-    dropDelay ? autoPile() : clearInterval(dropInterval);
+    dropDelay ? autoPile(randomDrop) : clearInterval(dropInterval);
 }
 
 document.getElementsByName("toppleDelay")[0].onchange = function()
 {
     toppleDelay = this.value;
+}
+
+document.getElementById("reset").onclick = function()
+{
+    randomDrop = false;
+    initPileArray();
+}
+
+document.getElementById("randomize").onclick = function()
+{
+    randomDrop = true;
+    initPileArray();
 }
 
 
@@ -60,9 +73,16 @@ function autoPile()
     dropInterval = window.setInterval(
         function()
         {
-            var randX = Math.floor(Math.random() * lotSize);
-            var randY = Math.floor(Math.random() * lotSize);
-            addToPile(randX, randY);
+            if (randomDrop)
+            {
+                var randX = Math.floor(Math.random() * lotSize);
+                var randY = Math.floor(Math.random() * lotSize);
+                addToPile(randX, randY);
+            }
+            else
+            {
+                addToPile(Math.floor(lotSize/2), Math.floor(lotSize/2));
+            }
         },
         dropDelay
     );
@@ -72,7 +92,7 @@ function autoPile()
 function buildSandlot()
 {
     sandlotBuilt = false;
-    initPileArray(false);
+    initPileArray();
     for (var y=0; y<lotSize; ++y)
     {
         for (var x=0; x<lotSize; ++x)
@@ -119,14 +139,14 @@ function changeColor(x, y)
 }
 
 
-function initPileArray(randomize)
+function initPileArray()
 {
     for (var y=0; y<lotSize; ++y)
     {
         pileArray[y] = [];
         for (var x=0; x<lotSize; ++x)
         {
-            if (randomize)
+            if (randomDrop)
             {
                 var rand = Math.floor(Math.random() * toppleAt);
                 pileArray[y][x] = rand;
