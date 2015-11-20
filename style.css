@@ -3,3 +3,10 @@
     border: 1px solid #dddddd;
     position: absolute;
 }
+#description
+{
+    float: left;
+    font-size: 100%;
+    margin-left: 630px;
+    width: 22em;
+}
