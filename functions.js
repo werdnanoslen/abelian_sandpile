@@ -1,5 +1,5 @@
 var pileArray = [];
-var body = document.getElementsByTagName("body")[0];
+var sandpile = document.getElementById("sandpile");
 var lotSize = 50;
 var pileSize = 12;
 var toppleAt = 5;
@@ -98,7 +98,7 @@ function buildSandlot()
         for (var x=0; x<lotSize; ++x)
         {
             var pile = document.createElement("div");
-            body.appendChild(pile);
+            sandpile.appendChild(pile);
             pile.setAttribute("data-x", x);
             pile.setAttribute("data-y", y);
             pile.className = "pile";
